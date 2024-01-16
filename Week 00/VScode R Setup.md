@@ -83,15 +83,17 @@ When attempting to `pip` radian the latest version of python is throwing an erro
 error: Microsoft Visual C++ 14.0 or greater is required. Get it with "Microsoft C++ Build Tools": https://visualstudio.microsoft.com/visual-cpp-build-tools/
 ```
 
-Download Build tools and select the desktop workflow. 
-- [Microsoft C++ Build Tools - Visual Studio](https://visualstudio.microsoft.com/visual-cpp-build-tools/)
-It is a pretty big install, which is not ideal, I wonder if installing an older version of python would be a workaround? e.g 3.9.
+Download Build tools
 
-From terminal. `cd Downloads`
+- [Microsoft C++ Build Tools - Visual Studio](https://visualstudio.microsoft.com/visual-cpp-build-tools/)
+
+From a command prompt. `cd Downloads`
 
 ```shell
 vs_buildtools.exe --norestart --passive --downloadThenInstall --includeRecommended --add Microsoft.VisualStudio.Workload.NativeDesktop --add Microsoft.VisualStudio.Workload.VCTools --add Microsoft.VisualStudio.Workload.MSBuildTools
 ```
+
+It is a pretty big install, which is not ideal, I wonder if installing an older version of python would be a workaround? e.g 3.9.
 
 Then the following VS Code settings should be updated to properly use radian as the default terminal. Put the path to `radian.exe` in `r.rterm.windows` with all `\` replaced with `\\`. For example, if your `radian` is installed for `user`:
 
