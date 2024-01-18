@@ -335,9 +335,10 @@ What are the issues to consider?
 
 - **Approach 3: Non-linear data transformation**
   - Squear-root and log-transformation for right skewed data.
-  
+
 
 ## 1.4 Fundamentals of programming in R
+
 ## 1.5 Data Types
 ## 1.6 Data Structures
 ## 1.7 Create, manipulate and summarise data
