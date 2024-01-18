@@ -14,20 +14,42 @@ Each event record is a snapshot triggered by an individual network ‘packet’.
 
 | Variable | Description |
 | ---- | ---- |
-| Assembled Payload Size (continuous) | The total size of the inbound suspicious payload. Note: This would contain the data sent by the attacker in the “TCP conversation” up until the event was  triggered. |
-| DYNRiskA Score (continuous) | An untested in-built risk score assigned by a new SIEM plug-in. |
-| IPV6 Traffic (binary) | A flag indicating whether the triggering packet was using IPV6 or IPV4 protocols (True = IPV6). |
-| Response Size (continuous) | The total size of the reply data in the TCP  conversation prior to the triggering packet. |
-| Source Ping Time (ms) (continuous) | The ‘ping’ time to the IP address which triggered the event record. This is affected by network structure, number of ‘hops’ and even physical distances. E.g.: <br><br>- < 1 ms is typically local to the device<br>- 1-5ms is usually located in the local network<br>- 5-50ms is often geographically local to a country<br>- ~100-250ms is trans-continental to servers<br>- 250+ may be trans-continental to a small network. <br><br>_Note, these are estimates only and many factors can influence ping times._ |
-| Operating System (Categorical) | A limited ‘guess’ as to the operating system that generated the inbound suspicious connection. This is not accurate, but it should be somewhat consistent for each ‘connection’. |
-| Connection State (Categorical) | An indication of the TCP connection state at the time the packet was triggered. |
-| Connection Rate (continuous) | The number of connections per second by the inbound suspicious connection made prior to the event record creation. |
-| Ingress Router (Binary) | DCE has two main network connections to the ‘world’. This field indicates which connection the events arrived through. |
-| Server Response Packet Time (ms) (continuous) | An estimation of the time from when the payload was sent to when the reply packet was generated. This may indicate server processing time/load for the event. |
-| Packet Size (continuous) | The size of the triggering packet. |
-| Packet TTL (continuous) | The time-to-live (TTL) of the previous inbound packet. TTL can be a measure of how many ‘hops’ (routers) a packet has traversed before arriving at our network. |
-| Source IP Concurrent Connection (Continuous) | How many concurrent connections were open from the source IP at the time the event was triggered. |
-| Class (Binary) | Indicates if the event was confirmed malicious, i.e., 0 = Non-malicious, 1 = Malicious. |
+| **Assembled Payload Size (continuous)** | The total size of the inbound suspicious payload. Note: This would contain the data sent by the attacker in the “TCP conversation” up until the event was  triggered. |
+| **DYNRiskA Score (continuous)** | An untested in-built risk score assigned by a new SIEM plug-in. |
+| **IPV6 Traffic (binary)** | A flag indicating whether the triggering packet was using IPV6 or IPV4 protocols (True = IPV6). |
+| **Response Size (continuous)** | The total size of the reply data in the TCP  conversation prior to the triggering packet. |
+| **Source Ping Time (ms) (continuous)** | The ‘ping’ time to the IP address which triggered the event record. This is affected by network structure, number of ‘hops’ and even physical distances. E.g.: <br><br>- < 1 ms is typically local to the device<br>- 1-5ms is usually located in the local network<br>- 5-50ms is often geographically local to a country<br>- ~100-250ms is trans-continental to servers<br>- 250+ may be trans-continental to a small network. <br><br>_Note, these are estimates only and many factors can influence ping times._ |
+| **Operating System (Categorical)** | A limited ‘guess’ as to the operating system that generated the inbound suspicious connection. This is not accurate, but it should be somewhat consistent for each ‘connection’. |
+| **Connection State (Categorical)** | An indication of the TCP connection state at the time the packet was triggered. |
+| **Connection Rate (continuous)** | The number of connections per second by the inbound suspicious connection made prior to the event record creation. |
+| **Ingress Router (Binary)** | DCE has two main network connections to the ‘world’. This field indicates which connection the events arrived through. |
+| **Server Response Packet Time (ms) (continuous)** | An estimation of the time from when the payload was sent to when the reply packet was generated. This may indicate server processing time/load for the event. |
+| **Packet Size (continuous)** | The size of the triggering packet. |
+| **Packet TTL (continuous)** | The time-to-live (TTL) of the previous inbound packet. TTL can be a measure of how many ‘hops’ (routers) a packet has traversed before arriving at our network. |
+| **Source IP Concurrent Connection (Continuous)** | How many concurrent connections were open from the source IP at the time the event was triggered. |
+| **Class (Binary)** | Indicates if the event was confirmed malicious, i.e., 0 = Non-malicious, 1 = Malicious. |
+
+### Variable names
+
+Categorical
+
+Operating System = Operating.System
+Connection State = Connection.State
+Ingress Router = Ingress.Router
+IPV6 Traffic =  IPV6.Traffic
+Class = Class
+
+Continuous
+
+Assembled Payload Size = Assembled.Payload.Size
+DYNRiskA Score = DYNRiskA.Score
+Response Size = Response.Size
+Source Ping Time (ms) = Source.Ping.Time
+Connection Rate = Connection.Rate
+Server Response Packet Time (ms) = Server.Response.Packet.Time
+Packet Size = Packet.Size
+Packet TTL = Packet.TTL
+Source IP Concurrent Connection = Source.IP.Concurrent.Connection
 
 ## Objectives
 
