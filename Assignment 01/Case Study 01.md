@@ -133,6 +133,8 @@ N (%) stands for frequency and percentage.
 
 Note: The tables for subparts (i) and (ii) should be based on the original sub-sample of 600 observations, not the cleaned version (produced in the next step). You are only required to generate the statistics in R and then export the statistics into Excel, generate the tables, and format them appropriately.
 
+### 3. Clean the data, Perform PCA and Visualise the data
+
 **(iii)**  
 Examine the results in sub-parts (i) and (ii). Are there any invalid categories/values for the categorical variables? Is there any evidence of outliers for any of the continuous/numeric variables? If so, how many and what percentage are there? Include your answers in your report.
 
