@@ -311,7 +311,6 @@ View(ElderlyPopWA)
 ## ----echo=FALSE,error=FALSE, out.width = "80%", fig.align='center', fig.cap='\\label{fig:fig5}BMI classification'----
 knitr::include_graphics("BMI_Class.png")
 
-
 ## ------------------------------------------------------------------------
 #Create BMI categories for the elderly female participants
 

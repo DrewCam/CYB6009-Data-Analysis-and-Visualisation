@@ -1,4 +1,4 @@
-# Case Study 01
+# Case Study 01: Data preparation and visualisation
 
 Available until 31 Jan 2024 14:00
 
@@ -31,25 +31,25 @@ Each event record is a snapshot triggered by an individual network ‘packet’.
 
 ### Variable names
 
-Categorical
+#### Categorical
 
-Operating System = Operating.System
-Connection State = Connection.State
-Ingress Router = Ingress.Router
-IPV6 Traffic =  IPV6.Traffic
-Class = Class
+- Operating System = Operating.System
+- Connection State = Connection.State
+- Ingress Router = Ingress.Router
+- IPV6 Traffic =  IPV6.Traffic
+- Class = Class
 
-Continuous
+#### Continuous
 
-Assembled Payload Size = Assembled.Payload.Size
-DYNRiskA Score = DYNRiskA.Score
-Response Size = Response.Size
-Source Ping Time (ms) = Source.Ping.Time
-Connection Rate = Connection.Rate
-Server Response Packet Time (ms) = Server.Response.Packet.Time
-Packet Size = Packet.Size
-Packet TTL = Packet.TTL
-Source IP Concurrent Connection = Source.IP.Concurrent.Connection
+- Assembled Payload Size = Assembled.Payload.Size
+- DYNRiskA Score = DYNRiskA.Score
+- Response Size = Response.Size
+- Source Ping Time (ms) = Source.Ping.Time
+- Connection Rate = Connection.Rate
+- Server Response Packet Time (ms) = Server.Response.Packet.Time
+- Packet Size = Packet.Size
+- Packet TTL = Packet.TTL
+- Source IP Concurrent Connection = Source.IP.Concurrent.Connection
 
 ## Objectives
 
@@ -120,7 +120,7 @@ For each of your **categorical** or **binary** variables, determine the numb
 > N (%) stands for frequency and percentage.  
 
 **(ii)**  
-Summarise each of your continuous/numeric variables in a table in your report as follows. State all values, except N, to 2 decimal places. 
+Summarise each of your continuous/numeric variables in a table in your report as follows. State all values, except N, to 2 decimal places.
 
 |Continuous Feature|Number (%) missing|Min|Max|Mean|Median|Skewness|
 |---|---|---|---|---|---|---|
@@ -170,7 +170,7 @@ Based on the results from parts (iii) to (iv), describe which dimension (choose 
 
 ## PREPARATION ACTIVITIES
 
-The skills required to complete this assessment are covered Week 1 and 2 (see Modules 1, 2 and 3).
+The skills required to complete this assessment are covered Modules 1, 2 and 3.
 
 ## Rubric
 
@@ -181,10 +181,6 @@ Correct implementation of descriptive analysis, data cleaning and PCA in R
 1. Working code
 2. Masking of invalid/outliers done correctly
 3. Good documentation/commentary
-4. Is it your own work?
-
-> [!NOTE]  
-> Note: No more than 20% of your code are to come from external sources. External sources of code in APA >7 referencing style (if applicable).
 
 Correct identification of missing and/or invalid observations in the data with justifications.
 
