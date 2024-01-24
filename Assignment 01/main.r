@@ -74,11 +74,11 @@ print(categorical_output) # Print summary to the console.
 
 # # A tibble: 16 x 4
 #    Feature          Category            Count Percentage
-#    <chr>            <chr>               <int> <chr>     
-#  1 Operating.System "Android"             238 39.7%     
-#  2 Operating.System "iOS"                  40 6.7%      
-#  3 Operating.System "Windows (Unknown)"   264 44%       
-#  4 Operating.System "Windows 10+"           4 0.7%      
+#    <chr>            <chr>               <int> <chr>
+#  1 Operating.System "Android"             238 39.7%
+#  2 Operating.System "iOS"                  40 6.7%
+#  3 Operating.System "Windows (Unknown)"   264 44%
+#  4 Operating.System "Windows 10+"           4 0.7%
 #  5 Operating.System "Windows 7"            54 9%
 #  6 Connection.State "ESTABLISHED"         397 66.2%
 #  7 Connection.State "INVALID"             177 29.5%
@@ -108,9 +108,9 @@ summary(mydata[, continuous_features]) # Print summary to the console.
 
 #Calculate summary data from each feature.
 missing_count <- colSums(is.na(mydata[, continuous_features])) # Get the number of missing values
-missing_pct <- round(colMeans(is.na(mydata[, continuous_features])) * 100, 2) # Get percentage of missing rounded to 2 decimal places 
-min_values <- round(sapply(mydata[, continuous_features], min, na.rm = TRUE), 2) # Minimum to 2 decimal places. 
-max_values <- round(sapply(mydata[, continuous_features], max, na.rm = TRUE), 2) # Max to 2 decimal places. 
+missing_pct <- round(colMeans(is.na(mydata[, continuous_features])) * 100, 2) # Get percentage of missing rounded to 2 decimal places
+min_values <- round(sapply(mydata[, continuous_features], min, na.rm = TRUE), 2) # Minimum to 2 decimal places.
+max_values <- round(sapply(mydata[, continuous_features], max, na.rm = TRUE), 2) # Max to 2 decimal places.
 mean_values <- round(sapply(mydata[, continuous_features], mean, na.rm = TRUE), 2) # Mean to to 2 decimal places.
 median_values <- round(sapply(mydata[, continuous_features], median, na.rm = TRUE), 2) # Median to 2 decimal places.
 skew_values <- round(sapply(mydata[, continuous_features], skewness, na.rm = TRUE), 2) # Skewness to to 2 decimal places.
@@ -153,53 +153,56 @@ sum(mydata$Assembled.Payload.Size == -1)
 # Initialize an empty list to store the indices of the outliers
 outliers_indices <- list()
 
-# Loop through each specified continuous feature
-for (feature in continuous_features) {
-    # Check if the feature exists in the dataset
-    if (!feature %in% names(mydata)) {
-        next  # Skip to the next feature if the current one is not found
-    }
-
-    # Calculate the mean and standard deviation for the feature
-    mean_val <- mean(mydata[[feature]], na.rm = TRUE)
-    sd_val <- sd(mydata[[feature]], na.rm = TRUE)
-
-    # Calculate the upper and lower bounds
-    upper_bound <- mean_val + 4 * sd_val
-    lower_bound <- mean_val - 4 * sd_val
-
-    # Identify outliers
-    outliers <- which(mydata[[feature]] > upper_bound | mydata[[feature]] < lower_bound)
-
-    # Store the indices of outliers in the list
-    outliers_indices[[feature]] <- outliers
-}
-
 # Print or return the list of outlier indices for each continuous feature
 print(outliers_indices)
 
-# print(outliers_indices)
+for (feature in continuous_features) {
+  # Check if the feature exists in the dataset
+  if (!feature %in% names(mydata)) {
+    next  # Skip to the next feature if the current one is not found
+  }
+
+  # Calculate the mean and standard deviation for the feature
+  mean_val <- mean(mydata[[feature]], na.rm = TRUE)
+  sd_val <- sd(mydata[[feature]], na.rm = TRUE)
+
+  # Calculate the upper and lower bounds
+  upper_bound <- mean_val + 4 * sd_val
+  lower_bound <- mean_val - 4 * sd_val
+
+  # Identify outliers
+  outliers <- which(mydata[[feature]] > upper_bound | mydata[[feature]] < lower_bound)
+
+  # Store the indices of outliers in the list
+  outliers_indices[[feature]] <- outliers
+
+}
+
+# Print the list of outlier indices
+print(outliers_indices)
+
+
 # $Assembled.Payload.Size
 # integer(0)
-# 
+#
 # $DYNRiskA.Score
 # integer(0)
-# 
+#
 # $Response.Size
 # [1] 573
 # 1 Outlier.
 # $Source.Ping.Time
 # integer(0)
-# 
+#
 # $Connection.Rate
 # [1] 488 600
 # 2 Outliers.
 # $Server.Response.Packet.Time
 # integer(0)
-# 
+#
 # $Packet.Size
 # integer(0)
-# 
+#
 # $Packet.TTL
 # [1] 579
 # 1 Outlier.
@@ -207,7 +210,7 @@ print(outliers_indices)
 # integer(0)
 
 ### Identifying Outliers using Histograms
-# Function to create histograms for continuous features. 
+# Function to create histograms for continuous features.
 #histogram = function(df, feature) {
 #  ggplot(df, aes(x = !!sym(feature))) +
 #    geom_histogram(bins = 30, fill = "black", color = "white") +
@@ -215,18 +218,18 @@ print(outliers_indices)
 #    theme_minimal()
 #}
 
-# Loop through each print and save the plot. 
+# Loop through each print and save the plot.
 #for (feature in continuous_features) {
 #  print(histogram(mydata, feature))
 #}
 
 for (feature in continuous_features) {
   # Create the plot
-  p = histogram(mydata, feature)
-  
+  p <- histogram(mydata, feature)
+
   # Print the plot
   print(p)
-  
+
   # Save the plot as a PNG file with a unique filename
   ggsave(filename = paste0("histogram_", feature, ".png"), plot = p, width = 10, height = 7, units = "in")
 }
