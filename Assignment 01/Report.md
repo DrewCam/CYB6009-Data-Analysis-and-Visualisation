@@ -37,7 +37,7 @@ Issues with the data:
 
 - The `Operating.System` variable has a category for "Windows (Unknown)", "Windows 7" and "Windows 10+". Could be combined into a single category. As the "Windows 10+" category only has 4 observations, and combineing the categories would make the variable more interpretable.
 
-- The `IPv6.Traggic` variable has a category for " " and "-". Which suggests missing data. This variable should be investigated further or repalaced with NA values. Alternitivly, the variable could be removed from the dataset as it does not appear to be useful. False is the only category that has a significant number of observations.
+- The `IPv6.Traffic` variable has a category for " " and "-". Which suggests missing data. This variable should be investigated further or repalaced with NA values. Alternitivly, the variable could be removed from the dataset as it does not appear to be useful. False is the only category that has a significant number of observations.
 
 ## Part 2 - Continuous/Numerical Variables
 

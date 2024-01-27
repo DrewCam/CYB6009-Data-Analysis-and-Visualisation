@@ -246,7 +246,6 @@ for (feature in continuous_features) {
 colSums(is.na(mydata_clean))
 colSums(is.na(mydata))
 
-
 # (ii) Export your “cleaned” data as follows. This file will need to be submitted along with your report.
 
 #Write to a csv file.
