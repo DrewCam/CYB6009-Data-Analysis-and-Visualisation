@@ -21,9 +21,8 @@ library(factoextra)
 #--------------------------------------------------------------------------------------------------------------------#
 
 ### Part 1 – Create data sub-sample
-
 # Import Data and get sub-sample.
-# Setting Seed
+
 # My working directory
 setwd("C:/Users/drewc/OneDrive/Documents/J97 - Master of Cyber Security/CYB6009-Data-Analysis-and-Visualisation/Assignment 01")
 getwd()
@@ -49,14 +48,15 @@ dim(mydata)  # Check the dimension of your sub-sample
 
 ### Part 2 – Explore the Data
 
-## (i) For each of the categorical or binary variables determine the number (%) of instances for each of their categories.
+## (i) For each of your categorical or binary variables, determine the number (%) of instances for each of their categories and summarise them in a table as follows in your report.
+# State all percentages in 1 decimal places.
 
 # Create a vector to hold Categorical features
-categorical_features <- c("Operating.System", 
-                         "Connection.State", 
-                         "IPV6.Traffic", 
-                         "Ingress.Router", 
-                         "Class")
+categorical_features <- c("Operating.System",
+                          "Connection.State",
+                          "IPV6.Traffic",
+                          "Ingress.Router",
+                          "Class")
 
 # loop through the categorical features and generate summary data frames
 categorical_summary <- lapply(categorical_features, function(var) {
@@ -92,17 +92,18 @@ print(categorical_output) # Print summary to the console.
 # 15 Class            "0"                   300 50%
 # 16 Class            "1"                   300 50%
 
-##(ii) Summarise each of your continuous/numeric variables in a table as follows. State all values to 2 decimal places.
-# Create a vector to hold continuous features
+# (ii) Summarise each of your continuous/numeric variables in a table in your report as follows.
+# State all values, except N, to 2 decimal places.
+
 continuous_features <- c("Assembled.Payload.Size",
-                     "DYNRiskA.Score",
-                     "Response.Size",
-                     "Source.Ping.Time",
-                     "Connection.Rate",
-                     "Server.Response.Packet.Time",
-                     "Packet.Size",
-                     "Packet.TTL",
-                     "Source.IP.Concurrent.Connection")
+                         "DYNRiskA.Score",
+                         "Response.Size",
+                         "Source.Ping.Time",
+                         "Connection.Rate",
+                         "Server.Response.Packet.Time",
+                         "Packet.Size",
+                         "Packet.TTL",
+                         "Source.IP.Concurrent.Connection")
 
 summary(mydata[, continuous_features]) # Print summary to the console.
 
@@ -116,15 +117,14 @@ median_values <- round(sapply(mydata[, continuous_features], median, na.rm = TRU
 skew_values <- round(sapply(mydata[, continuous_features], skewness, na.rm = TRUE), 2) # Skewness to to 2 decimal places.
 
 # Combine all the results into a data frame
-continuous_output <- data.frame(
-  Feature = continuous_features,
-  Missing = missing_count,
-  MissingPct = missing_pct,
-  Min = min_values,
-  Max = max_values,
-  Mean = mean_values,
-  Median = median_values,
-  Skewness = skew_values)
+continuous_output <- data.frame(Feature = continuous_features,
+                                Missing = missing_count,
+                                MissingPct = missing_pct,
+                                Min = min_values,
+                                Max = max_values,
+                                Mean = mean_values,
+                                Median = median_values,
+                                Skewness = skew_values)
 
 # Print output to the console.
 print(continuous_output)
@@ -140,9 +140,10 @@ print(continuous_output)
 # Packet.TTL                                           Packet.TTL       0          0    32.00    108.00     63.98     63.00     0.19
 # Source.IP.Concurrent.Connection Source.IP.Concurrent.Connection       0          0     9.00     34.00     21.37     21.50    -0.03
 
-### Part 3 – Clean the Data, Perform PCA and Visualise the Data
+# (iii) Examine the results in sub-parts (i) and (ii). Are there any invalid categories/values for the categorical variables?
+# Is there any evidence of outliers for any of the continuous/numeric variables?
+# If so, how many and what percentage are there? Include your answers in your report.
 
-# We would not expect to see an assembled Pay load size of less than 0.
 
 # Count the number of -1 values in Assembly.Payload.Size
 sum(mydata$Assembled.Payload.Size == -1)
@@ -181,47 +182,31 @@ for (feature in continuous_features) {
 # Print the list of outlier indices
 print(outliers_indices)
 
-
 # $Assembled.Payload.Size
 # integer(0)
 #
-# $DYNRiskA.Score
-# integer(0)
+# $DYNRiskA.Score integer(0)
 #
-# $Response.Size
-# [1] 573
-# 1 Outlier.
-# $Source.Ping.Time
-# integer(0)
-#
-# $Connection.Rate
-# [1] 488 600
-# 2 Outliers.
-# $Server.Response.Packet.Time
-# integer(0)
-#
-# $Packet.Size
-# integer(0)
-#
-# $Packet.TTL
-# [1] 579
-# 1 Outlier.
-# $Source.IP.Concurrent.Connection
-# integer(0)
+# $Response.Size [1] 573 1 Outlier.
+# $Source.Ping.Time integer(0)
+# $Connection.Rate [1] 488 600 2 Outliers.
+# $Server.Response.Packet.Time integer(0)
+# $Packet.Size integer(0)
+# $Packet.TTL [1] 579 1 Outlier.
+# $Source.IP.Concurrent.Connection integer(0)
 
-### Identifying Outliers using Histograms
-# Function to create histograms for continuous features.
-#histogram = function(df, feature) {
-#  ggplot(df, aes(x = !!sym(feature))) +
-#    geom_histogram(bins = 30, fill = "black", color = "white") +
-#    labs(x = feature, y = "Frequency", title = paste0(feature," Histogram")) +
-#    theme_minimal()
-#}
-
-# Loop through each print and save the plot.
-#for (feature in continuous_features) {
-#  print(histogram(mydata, feature))
-#}
+## Identifying Outliers using Histograms
+ Function to create histograms for continuous features.
+histogram = function(df, feature) {
+  ggplot(df, aes(x = !!sym(feature))) +
+    geom_histogram(bins = 30, fill = "black", color = "white") +
+    labs(x = feature, y = "Frequency", title = paste0(feature," Histogram")) +
+    theme_minimal()
+}
+ Loop through each print and save the plot.
+for (feature in continuous_features) {
+  print(histogram(mydata, feature))
+}
 
 for (feature in continuous_features) {
   # Create the plot
@@ -233,3 +218,113 @@ for (feature in continuous_features) {
   # Save the plot as a PNG file with a unique filename
   ggsave(filename = paste0("histogram_", feature, ".png"), plot = p, width = 10, height = 7, units = "in")
 }
+
+### Part 3 – Clean the Data, Perform PCA and Visualise the Data
+
+# (i) Now clean your data. For all the observations that you have deemed to be invalid/outliers in Part 1 (iii), mask them by replacing them with NAs using the replace(.) command in R.
+
+mydata_clean <- mydata
+
+# Replace -1 values in Assembly.Payload.Size with NA
+
+mydata$Assembled.Payload.Size[mydata$Assembled.Payload.Size == -1] <- NA
+
+# Replace outliers with NA for all continuous features and save as mydata_clean
+
+for (feature in continuous_features) {
+  # Check if the feature exists in the dataset
+  if (!feature %in% names(mydata_clean)) {
+    next  # Skip to the next feature if the current one is not found
+  }
+
+  # Replace outliers with NA
+  mydata_clean[[feature]][outliers_indices[[feature]]] <- NA
+}
+
+# Check the number of NAs in each feature
+
+colSums(is.na(mydata_clean))
+colSums(is.na(mydata))
+
+
+
+
+
+
+
+
+
+
+# (ii) Export your “cleaned” data as follows. This file will need to be submitted along with your report.
+
+#Write to a csv file.
+write.csv(mydata,"mydata.csv")
+
+# (iii) Extract only the data for the numeric features in mydata, along with Class, and store them as a separate data frame/tibble
+
+# Create a new data frame with numeric features and 'Class'
+numeric_class_data = mydata %>%
+  select_if(is.numeric) %>%
+  mutate(Class = mydata$Class)
+view(numeric_class_data)
+
+# Filter NAs.
+numeric_class_clean = na.omit(numeric_class_data)
+
+# Then, filter the incomplete cases (i.e. any rows with NAs) and perform PCA using prcomp(.) in R, but only on the numeric features (i.e. exclude Class). Include answers to the following in your report:
+
+ # Outline why you believe the data should or should not be scaled, i.e. standardised, when performing PCA.
+ # Outline the individual and cumulative proportions of variance (3 decimal places) explained by each of the first 4 components.
+ # Outline how many principal components (PCs) are adequate to explain at least 50% of the variability in your data.
+ # Outline the coefficients (or loadings) to 3 decimal places for PC1, PC2 and PC3, and describe which features (based on the loadings) are the key drivers for each of these three PCs.
+
+# (iv) Create a biplot for PC1 vs PC2 to help visualise the results of your PCA in the first two dimensions. Colour code the points with the variable Class. Write a paragraph to explain what your biplots are showing. That is, comment on the PCA plot, the loading plot individually, and then both plots combined (see Slides 28-29 of Module 3 notes) and outline and justify which (if any) of the features can help to distinguish Malicious events.
+
+# PC1 vs PC2
+
+fviz_pca_biplot(pca.mydata,
+                axes = c(1, 2),
+                col.ind=mydata$Class,
+                fill.ind = mydata$Class,
+                alpha=0.5,
+                pointsize=4,
+                pointshape=21,
+                col.var="red",
+                label = "var",
+                repel = TRUE,
+                addEllipses = TRUE,
+                legend.title=list(colour="Class", fill="Class", alpha="Class"))
+
+# PC1 vs PC3
+
+fviz_pca_biplot(pca.mydata,
+                axes = c(1, 3),
+                col.ind=mydata$Class,
+                fill.ind = mydata$Class,
+                alpha=0.5,
+                pointsize=4,
+                pointshape=21,
+                col.var="red",
+                label = "var",
+                repel = TRUE,
+                addEllipses = TRUE,
+                legend.title=list(colour="Class", fill="Class", alpha="Class"))
+
+# PC2 vs PC3
+
+fviz_pca_biplot(pca.mydata,
+                axes = c(2, 3),
+                col.ind=mydata$Class,
+                fill.ind = mydata$Class,
+                alpha=0.5,
+                pointsize=4,
+                pointshape=21,
+                col.var="red",
+                label = "var",
+                repel = TRUE,
+                addEllipses = TRUE,
+                legend.title=list(colour="Class", fill="Class", alpha="Class"))
+
+# (v) Based on the results from parts (iii) to (iv), describe which dimension (choose just one) can assist with the identification of Malicious events (Hint: project all the points in the PCA plot to PC1 axis and see whether there is good separation between the points for Malicious and Non-Malicious events. Then project to PC2 axis and see if there is separation between Malicious and Non-Malicious events, and whether it is better than the projection to PC1).
+
+
