@@ -10,7 +10,7 @@
 #A1 Main
 
 #De-comment to install the packages below
-install.packages(c("tidyverse","moments","ggpubr","vegan","factoextra","e1071"))
+install.packages(c("tidyverse", "moments", "ggpubr", "vegan", "factoextra", "e1071"))
 library(tidyverse)
 library(moments)
 library(ggpubr)
@@ -48,8 +48,7 @@ dim(mydata)  # Check the dimension of your sub-sample
 
 ### Part 2 – Explore the Data
 
-## (i) For each of your categorical or binary variables, determine the number (%) of instances for each of their categories and summarise them in a table as follows in your report.
-# State all percentages in 1 decimal places.
+## (i) For each of your categorical or binary variables, determine the number (%) of instances for each of their categories and summarise them in a table
 
 # Create a vector to hold Categorical features
 categorical_features <- c("Operating.System",
@@ -195,15 +194,15 @@ print(outliers_indices)
 # $Packet.TTL [1] 579 1 Outlier.
 # $Source.IP.Concurrent.Connection integer(0)
 
-## Identifying Outliers using Histograms
- Function to create histograms for continuous features.
+# Function to create histograms for continuous features.
+
 histogram = function(df, feature) {
   ggplot(df, aes(x = !!sym(feature))) +
     geom_histogram(bins = 30, fill = "black", color = "white") +
     labs(x = feature, y = "Frequency", title = paste0(feature," Histogram")) +
     theme_minimal()
 }
- Loop through each print and save the plot.
+# Loop through each print and save the plot.
 for (feature in continuous_features) {
   print(histogram(mydata, feature))
 }
@@ -221,7 +220,8 @@ for (feature in continuous_features) {
 
 ### Part 3 – Clean the Data, Perform PCA and Visualise the Data
 
-# (i) Now clean your data. For all the observations that you have deemed to be invalid/outliers in Part 1 (iii), mask them by replacing them with NAs using the replace(.) command in R.
+# (i) Now clean your data. For all the observations that you have deemed to be invalid/outliers in Part 1 (iii)
+# mask them by replacing them with NAs using the replace(.) command in R.
 
 mydata_clean <- mydata
 
@@ -247,14 +247,6 @@ colSums(is.na(mydata_clean))
 colSums(is.na(mydata))
 
 
-
-
-
-
-
-
-
-
 # (ii) Export your “cleaned” data as follows. This file will need to be submitted along with your report.
 
 #Write to a csv file.
@@ -271,14 +263,18 @@ view(numeric_class_data)
 # Filter NAs.
 numeric_class_clean = na.omit(numeric_class_data)
 
-# Then, filter the incomplete cases (i.e. any rows with NAs) and perform PCA using prcomp(.) in R, but only on the numeric features (i.e. exclude Class). Include answers to the following in your report:
+# Then, filter the incomplete cases (i.e. any rows with NAs) and perform PCA using prcomp(.) in R, but only on the numeric features (i.e. exclude Class). 
 
- # Outline why you believe the data should or should not be scaled, i.e. standardised, when performing PCA.
- # Outline the individual and cumulative proportions of variance (3 decimal places) explained by each of the first 4 components.
- # Outline how many principal components (PCs) are adequate to explain at least 50% of the variability in your data.
- # Outline the coefficients (or loadings) to 3 decimal places for PC1, PC2 and PC3, and describe which features (based on the loadings) are the key drivers for each of these three PCs.
+# Include answers to the following in your report:
+# Outline why you believe the data should or should not be scaled, i.e. standardised, when performing PCA.
+# Outline the individual and cumulative proportions of variance (3 decimal places) explained by each of the first 4 components.
+# Outline how many principal components (PCs) are adequate to explain at least 50% of the variability in your data.
+# Outline the coefficients (or loadings) to 3 decimal places for PC1, PC2 and PC3, and describe which features (based on the loadings) are the key drivers for each of these three PCs.
 
-# (iv) Create a biplot for PC1 vs PC2 to help visualise the results of your PCA in the first two dimensions. Colour code the points with the variable Class. Write a paragraph to explain what your biplots are showing. That is, comment on the PCA plot, the loading plot individually, and then both plots combined (see Slides 28-29 of Module 3 notes) and outline and justify which (if any) of the features can help to distinguish Malicious events.
+# (iv) Create a biplot for PC1 vs PC2 to help visualise the results of your PCA in the first two dimensions.
+# Colour code the points with the variable Class. Write a paragraph to explain what your biplots are showing.
+# That is, comment on the PCA plot, the loading plot individually, and then both plots combined 
+# (see Slides 28-29 of Module 3 notes) and outline and justify which (if any) of the features can help to distinguish Malicious events.
 
 # PC1 vs PC2
 
