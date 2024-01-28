@@ -3,14 +3,20 @@
 - [Case Study 1 - Report](#case-study-1---report)
   - [Introduction](#introduction)
   - [Summary Tables](#summary-tables)
-    - [Table 1 - Categorical \& Binary Variables](#table-1---categorical--binary-variables)
-  - [Part 2 - Continuous/Numerical Variables](#part-2---continuousnumerical-variables)
+    - [Table i - Categorical \& Binary Variables](#table-i---categorical--binary-variables)
+  - [Table (ii) - Continuous/Numerical Variables](#table-ii---continuousnumerical-variables)
+    - [Table i - observations](#table-i---observations)
+    - [Table ii - observations](#table-ii---observations)
+      - [Outliers.](#outliers)
+  - [(iii)](#iii)
+  - [(iv)](#iv)
+  - [(v)](#v)
 
 ## Introduction
 
 ## Summary Tables
 
-### Table 1 - Categorical & Binary Variables
+### Table i - Categorical & Binary Variables
 
 | Categorical Feature | Category            | N   | %     |
 | ------------------- | ------------------- | --- | ----- |
@@ -33,13 +39,7 @@
 
 Table 1 shows the categorical and binary variables in the dataset. The table shows the number of observations in each category and the percentage of the total observations that category represents.
 
-Issues with the data:
-
-- The `Operating.System` variable has a category for "Windows (Unknown)", "Windows 7" and "Windows 10+". Could be combined into a single category. As the "Windows 10+" category only has 4 observations, and combineing the categories would make the variable more interpretable.
-
-- The `IPv6.Traffic` variable has a category for " " and "-". Which suggests missing data. This variable should be investigated further or repalaced with NA values. Alternitivly, the variable could be removed from the dataset as it does not appear to be useful. False is the only category that has a significant number of observations.
-
-## Part 2 - Continuous/Numerical Variables
+## Table (ii) - Continuous/Numerical Variables
 
 | Continuous Feature              | Number Missing | Percentage Missing | Min      | Max       | Mean      | Median    | Skewness |
 | ------------------------------- | -------------- | ------------------ | -------- | --------- | --------- | --------- | -------- |
@@ -55,7 +55,47 @@ Issues with the data:
 
 Table 2 shows the continuous/numerical variables in the dataset. The table shows the number of missing observations, the percentage of missing observations, the minimum, maximum, mean, median and skewness of each variable.
 
-Issues with the data:
+### Table i - observations
+
+- The `Operating.System` variable has a category for "Windows (Unknown)", "Windows 7" and "Windows 10+". Could be combined into a single category. As the "Windows 10+" category only has 4 observations, and combining the categories would make the variable more interpretable.
+
+- The `IPv6.Traffic` variable has a category for " " and "-". Which suggests missing data. This variable should be investigated further or repalaced with NA values. Alternitivly, the variable could be removed from the dataset as it does not appear to be useful. False is the only category that has a significant number of observations.
+
+- The `Connnection.State` variable has categories Invalid, New and Related. We can combine these to better interprate the data where connection states are either "ESTABLISHED" or "OTHER". why would this make the data more interpretable??
+
+### Table ii - observations
 
 - The `Assembled.Payload.Size` variable has a minimum value of -1.0%. It is not possible for an assembled payload size to be negative.
 - The `Connection.Rate` variable skewness is 0.95. This suggests that the variable is not normally distributed. This should be investigated further. as there may be outliers in the data.
+
+#### Outliers.
+
+The skewness values of X, Y, Z - May indicate outliers, however all are relativly well distributed, if slightly skewed. 
+
+> [!WARNING] - Outlier detection and results +/- 4 SD. 
+
+> [!WARNING] - Histograms.
+
+## (iii)
+
+- Outline why you believe the data should or should not be scaled, i.e. standardised, when performing PCA.
+- Outline the individual and cumulative proportions of variance (3 decimal places) explained by each of the first 4 components.
+- Outline how many principal components (PCs) are adequate to explain at least 50% of the variability in your data.
+- Outline the coefficients (or loadings) to 3 decimal places for PC1, PC2 and PC3, and describe which features (based on the loadings) are the key drivers for each of these three PCs.
+
+## (iv)
+
+Create a biplot for PC1 vs PC2 to help visualise the results of your PCA in the first two dimensions. Colour code the points with the variable Class.
+
+Write a paragraph to explain what your biplots are showing. That is:
+- Comment on the PCA plot
+- the loading plot
+- and then both plots combined
+
+- (see Slides 28-29 of Module 3 notes) and outline and justify which (if any) of the features can help to distinguish Malicious events.
+
+## (v)
+
+Based on the results from parts (iii) to (iv), describe which dimension (choose just one) can assist with the identification of Malicious events
+
+(Hint: project all the points in the PCA plot to PC1 axis and see whether there is good separation between the points for Malicious and Non-Malicious events. Then project to PC2 axis and see if there is separation between Malicious and Non-Malicious events, and whether it is better than the projection to PC1).
