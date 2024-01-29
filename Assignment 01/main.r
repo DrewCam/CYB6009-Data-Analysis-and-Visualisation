@@ -33,7 +33,7 @@ dat.class1 <- dat %>% filter(Class == 1) # malicious # nolint: object_name_linte
 # Randomly select 300 samples from each class, then combine them to form a working dataset
 set.seed(10215233)
 rand.class0 <- dat.class0[sample(1:nrow(dat.class0), size = 300, replace = FALSE),] # nolint
-rand.class1 <- dat.class1[sample(1:nrow(dat.class1), size = 300, replace = FALSE),] # nolint: object_name_linter.
+rand.class1 <- dat.class1[sample(1:nrow(dat.class1), size = 300, replace = FALSE),] # nolint: object_name_linter, commas_linter.
 
 # Your sub-sample of 600 observations
 mydata <- rbind(rand.class0, rand.class1)
@@ -176,7 +176,6 @@ ggsave(filename = "histogram_Packet.TTL.png", plot = pttl_plot, width = 10, heig
 ### Part 3 – Clean the Data, Perform PCA and Visualise the Data
 ###############################################################
 
-
 ### (i) Clean the data
 
 # Replace outliers with NA for all continuous features and save as mydata
@@ -208,63 +207,60 @@ mydata$Connection.State <- fct_collapse(mydata$Connection.State,
                                         Others = c("INVALID", "NEW", "RELATED"))
 
 # (ii) Export your “cleaned” data as follows.
-write.csv(mydata,"mydata_clean.csv") #Write to a csv file.
+write.csv(mydata, "mydata_clean.csv") #Write to a csv file.
 
 
-# Principal Component Analysis (PCA)
+### Principal Component Analysis (PCA)
 
 ### (iii) extract numeric features and 'Class'
-numeric_class_data = mydata %>%
+numeric_class_data <- mydata %>%
   select_if(is.numeric) %>%
   mutate(Class = mydata$Class)
 
 # filter the incomplete cases (NAs)
 numeric_class_clean <- na.omit(numeric_class_data)
 
-#str(numeric_class_clean)
+str(numeric_class_clean)
 
 # Perform PCA with prcomp excluding the 9th column (Class) from the PCA analysis
-pca.numeric <- prcomp(numeric_class_clean[, 1:9], scale = TRUE)
-summary(pca.numeric)
+pca_numeric <- prcomp(numeric_class_clean[, 1:9], scale = TRUE)
+summary(pca_numeric)
 
 # Get Loadings from PCA
-pca.numeric$rotation[, 1:3]
+pca_numeric$rotation[, 1:3]
 
 # Convert Class variable to factor
-numeric_class_clean$Class = factor(numeric_class_clean$Class, levels = c(0, 1))
+numeric_class_clean$Class <- factor(numeric_class_clean$Class, levels = c(0, 1))
 
 #Plot PCA
-plot_pca <- data.frame(pca.numeric$x, #PCA scores
-                 Class=numeric_class_clean$Class);
-ggplot(df,aes(x=PC1,y=PC2))+
-  geom_point(aes(colour=Class),alpha=0.8,size=4)+
-  theme_minimal(base_size=14)+
-  theme(legend.position = "right")+
-  xlab("PC1")+
+plot_pca <- data.frame(pca_numeric$x, #PCA scores
+                       Class = numeric_class_clean$Class)
+ggplot(df, aes(x = PC1, y = PC2)) +
+  geom_point(aes(colour = Class), alpha = 0.8, size = 4) +
+  theme_minimal(base_size = 14) +
+  theme(legend.position = "right") +
+  xlab("PC1") +
   ylab("PC2")
 
 ### (iv) Plot Biplot
-biplot_pca <- fviz_pca_biplot(pca.numeric,
-                axes = c(1, 2),
-                col.ind = numeric_class_clean$Class,
-                fill.ind = numeric_class_clean$Class,
-                alpha = 0.5,
-                pointsize = 4,
-                pointshape = 21,
-                col.var = "black",
-                label = "var",
-                repel = TRUE,
-                addEllipses = TRUE,
-                legend.title = list(colour = "Class", fill = "Class", alpha = "Class")) +
+biplot_pca <- fviz_pca_biplot(pca_numeric,
+                              axes = c(1, 2),
+                              col.ind = numeric_class_clean$Class,
+                              fill.ind = numeric_class_clean$Class,
+                              alpha = 0.5,
+                              pointsize = 4,
+                              pointshape = 21,
+                              col.var = "black",
+                              label = "var",
+                              repel = TRUE,
+                              addEllipses = TRUE,
+                              legend.title = list(colour = "Class", fill = "Class", alpha = "Class")) +
   scale_fill_manual(values = c("green", "red"), labels = c("Non-Malicious", "Malicious")) +
   scale_color_manual(values = c("green", "red"), labels = c("Non-Malicious", "Malicious")) +
   labs(x = "Principal Component 1", y = "Principal Component 2")
 
 # View the plot
 biplot_pca
-
-# Save the plot as a PNG file with a unique filename
-ggsave(filename = "biplot_pca.png", plot = biplot_pca, width = 10, height = 7, units = "in")
 
 ### (v) Choose a dimension that can assist with identifying malicious events.
 
@@ -281,9 +277,6 @@ density_pc1 <- ggplot(df, aes(x = PC1, fill = Class)) +
 # View the plot
 density_pc1
 
-# Save the plot as a PNG file
-ggsave(filename = "density_plot_PC1.png", plot = density_pc1, width = 10, height = 7, units = "in")
-
 # (v) Density plot for PC2
 
 density_pc2 <- ggplot(df, aes(x = PC2, fill = Class)) +
@@ -297,9 +290,6 @@ density_pc2 <- ggplot(df, aes(x = PC2, fill = Class)) +
 
 # View the plot
 density_pc2
-
-# Save the plot as a PNG file with a unique filename
-ggsave(filename = "density_plot_PC2.png", plot = density_pc2, width = 10, height = 7, units = "in")
 
 # Density plot for PC3
 
