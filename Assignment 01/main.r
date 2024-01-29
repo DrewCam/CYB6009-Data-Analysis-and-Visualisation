@@ -144,12 +144,18 @@ aps_plot <- ggplot(mydata, aes(x = Assembled.Payload.Size)) +
   labs(x = "Assembly.Payload.Size", y = "Count") +
   theme_bw()
 
+# View Plot
+aps_plot
+
 # Histogram for Response.Size
 
 rs_plot <- ggplot(mydata, aes(x = Response.Size)) +
   geom_histogram(bins = 30, fill = "steelblue", color = "white") +
   labs(x = "Response.Size", y = "Count") +
   theme_bw()
+
+# View Plot
+rs_plot
 
 # Histogram for Connection.Rate
 
@@ -158,6 +164,9 @@ cr_plot <- ggplot(mydata, aes(x = Connection.Rate)) +
   labs(x = "Connection.Rate", y = "Count") +
   theme_bw()
 
+# View Plot
+cr_plot
+
 # Histogram for Packet.TTL
 
 pttl_plot <- ggplot(mydata, aes(x = Packet.TTL)) +
@@ -165,12 +174,8 @@ pttl_plot <- ggplot(mydata, aes(x = Packet.TTL)) +
   labs(x = "Packet.TTL", y = "Count") +
   theme_bw()
 
-# Save the plots as PNG files with a unique filename
-ggsave(filename = "histogram_Assembly.Payload.Size.png", plot = aps_plot, width = 10, height = 7, units = "in")
-ggsave(filename = "histogram_Response.Size.png", plot = rs_plot, width = 10, height = 7, units = "in")
-ggsave(filename = "histogram_Connection.Rate.png", plot = cr_plot, width = 10, height = 7, units = "in")
-ggsave(filename = "histogram_Packet.TTL.png", plot = pttl_plot, width = 10, height = 7, units = "in")
-
+# View Plot
+pttl_plot
 
 ###############################################################
 ### Part 3 – Clean the Data, Perform PCA and Visualise the Data
@@ -232,10 +237,12 @@ pca_numeric$rotation[, 1:3]
 # Convert Class variable to factor
 numeric_class_clean$Class <- factor(numeric_class_clean$Class, levels = c(0, 1))
 
-#Plot PCA
-plot_pca <- data.frame(pca_numeric$x, #PCA scores
+#PCA Scores Dataframe
+df_pca <- data.frame(pca_numeric$x, #PCA scores
                        Class = numeric_class_clean$Class)
-ggplot(df, aes(x = PC1, y = PC2)) +
+
+# Plot PCA scores
+ggplot(df_pca, aes(x = PC1, y = PC2)) +
   geom_point(aes(colour = Class), alpha = 0.8, size = 4) +
   theme_minimal(base_size = 14) +
   theme(legend.position = "right") +
@@ -265,7 +272,7 @@ biplot_pca
 ### (v) Choose a dimension that can assist with identifying malicious events.
 
 # (v) Density plot for PC1
-density_pc1 <- ggplot(df, aes(x = PC1, fill = Class)) +
+density_pc1 <- ggplot(df_pca, aes(x = PC1, fill = Class)) +
   geom_density(alpha = 0.5) +
   theme_minimal(base_size = 14) +
   theme(legend.position = "right") +
@@ -279,7 +286,7 @@ density_pc1
 
 # (v) Density plot for PC2
 
-density_pc2 <- ggplot(df, aes(x = PC2, fill = Class)) +
+density_pc2 <- ggplot(df_pca, aes(x = PC2, fill = Class)) +
   geom_density(alpha = 0.5) +
   theme_minimal(base_size = 14) +
   theme(legend.position = "right") +
@@ -293,7 +300,7 @@ density_pc2
 
 # Density plot for PC3
 
-density_pc3 <- ggplot(df, aes(x = PC3, fill = Class)) +
+density_pc3 <- ggplot(df_pca, aes(x = PC3, fill = Class)) +
   geom_density(alpha = 0.5) +
   theme_minimal(base_size = 14) +
   theme(legend.position = "right") +
