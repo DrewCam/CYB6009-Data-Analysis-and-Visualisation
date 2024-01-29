@@ -1,18 +1,14 @@
 # Case Study 1 - Report
 
 - [Case Study 1 - Report](#case-study-1---report)
-  - [Introduction](#introduction)
   - [Summary Tables](#summary-tables)
     - [Table i - Categorical \& Binary Variables](#table-i---categorical--binary-variables)
-  - [Table (ii) - Continuous/Numerical Variables](#table-ii---continuousnumerical-variables)
     - [Table i - observations](#table-i---observations)
     - [Table ii - observations](#table-ii---observations)
       - [Outliers.](#outliers)
   - [(iii)](#iii)
   - [(iv)](#iv)
   - [(v)](#v)
-
-## Introduction
 
 ## Summary Tables
 
@@ -37,9 +33,10 @@
 | Class               | "0"                 | 300 | 50.0% |
 |                     | "1"                 | 300 | 50.0% |
 
+> Table 1 - Categorical & Binary Variables
+
 Table 1 shows the categorical and binary variables in the dataset. The table shows the number of observations in each category and the percentage of the total observations that category represents.
 
-## Table (ii) - Continuous/Numerical Variables
 
 | Continuous Feature              | Number Missing | Percentage Missing | Min      | Max       | Mean      | Median    | Skewness |
 | ------------------------------- | -------------- | ------------------ | -------- | --------- | --------- | --------- | -------- |
@@ -52,6 +49,7 @@ Table 1 shows the categorical and binary variables in the dataset. The table sho
 | Packet.Size                     | 0              | 0%                 | 1260.00  | 1439.00   | 1349.68   | 1348.00   | 0.05     |
 | Packet.TTL                      | 0              | 0%                 | 32.00    | 108.00    | 63.98     | 63.00     | 0.19     |
 | Source.IP.Concurrent.Connection | 0              | 0%                 | 9.00     | 34.00     | 21.37     | 21.50     | -0.03    |
+> Table 2 - Continuous/Numerical Variables
 
 Table 2 shows the continuous/numerical variables in the dataset. The table shows the number of missing observations, the percentage of missing observations, the minimum, maximum, mean, median and skewness of each variable.
 
