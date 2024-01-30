@@ -44,7 +44,6 @@ dim(mydata)  # Check the dimension of your sub-sample
 ### Part 2 – Explore the Data
 ###############################################################
 
-
 ### (i) Categorical & Binary features
 
 # Create a vector to hold Categorical features
@@ -133,8 +132,17 @@ for (feature in continuous_features) {
   outliers_indices[[feature]] <- outliers
 }
 
-# Print the list of outlier indices
-print(outliers_indices)
+print(outliers_indices) # Print the list of outlier indices
+
+# Print the value of "Response.Size" at index 573
+print(mydata[573, "Response.Size"]) # = 76495
+
+# Print the value of "Connection.Rate" at index 488 and 600
+print(mydata[488, "Connection.Rate"]) # = 1820.407
+print(mydata[600, "Connection.Rate"]) # = 1821.423
+
+# Print the value of "Packet.TTL" at index 579
+print(mydata[579, "Packet.TTL"]) # = 108
 
 # Histograms for features with outliers.
 
@@ -143,39 +151,34 @@ aps_plot <- ggplot(mydata, aes(x = Assembled.Payload.Size)) +
   geom_histogram(bins = 30, fill = "steelblue", color = "white") +
   labs(x = "Assembly.Payload.Size", y = "Count") +
   theme_bw()
-
-# View Plot
-aps_plot
+aps_plot # View Plot
 
 # Histogram for Response.Size
-
 rs_plot <- ggplot(mydata, aes(x = Response.Size)) +
   geom_histogram(bins = 30, fill = "steelblue", color = "white") +
   labs(x = "Response.Size", y = "Count") +
   theme_bw()
-
-# View Plot
-rs_plot
+rs_plot # View Plot
 
 # Histogram for Connection.Rate
-
 cr_plot <- ggplot(mydata, aes(x = Connection.Rate)) +
   geom_histogram(bins = 30, fill = "steelblue", color = "white") +
   labs(x = "Connection.Rate", y = "Count") +
   theme_bw()
-
-# View Plot
-cr_plot
+cr_plot # View Plot
 
 # Histogram for Packet.TTL
-
 pttl_plot <- ggplot(mydata, aes(x = Packet.TTL)) +
   geom_histogram(bins = 30, fill = "steelblue", color = "white") +
   labs(x = "Packet.TTL", y = "Count") +
   theme_bw()
+pttl_plot # View Plot
 
-# View Plot
-pttl_plot
+# Save the plots.
+ggsave("aps_plot.png", plot = aps_plot, width = 10, height = 8, dpi = 300)
+ggsave("rs_plot.png", plot = rs_plot, width = 10, height = 8, dpi = 300)
+ggsave("cr_plot.png", plot = cr_plot, width = 10, height = 8, dpi = 300)
+ggsave("pttl_plot.png", plot = pttl_plot, width = 10, height = 8, dpi = 300)
 
 ###############################################################
 ### Part 3 – Clean the Data, Perform PCA and Visualise the Data
@@ -214,7 +217,6 @@ mydata$Connection.State <- fct_collapse(mydata$Connection.State,
 # (ii) Export your “cleaned” data as follows.
 write.csv(mydata, "mydata_clean.csv") #Write to a csv file.
 
-
 ### Principal Component Analysis (PCA)
 
 ### (iii) extract numeric features and 'Class'
@@ -239,15 +241,8 @@ numeric_class_clean$Class <- factor(numeric_class_clean$Class, levels = c(0, 1))
 
 #PCA Scores Dataframe
 df_pca <- data.frame(pca_numeric$x, #PCA scores
-                       Class = numeric_class_clean$Class)
+                     Class = numeric_class_clean$Class)
 
-# Plot PCA scores
-ggplot(df_pca, aes(x = PC1, y = PC2)) +
-  geom_point(aes(colour = Class), alpha = 0.8, size = 4) +
-  theme_minimal(base_size = 14) +
-  theme(legend.position = "right") +
-  xlab("PC1") +
-  ylab("PC2")
 
 ### (iv) Plot Biplot
 biplot_pca <- fviz_pca_biplot(pca_numeric,
@@ -264,7 +259,7 @@ biplot_pca <- fviz_pca_biplot(pca_numeric,
                               legend.title = list(colour = "Class", fill = "Class", alpha = "Class")) +
   scale_fill_manual(values = c("green", "red"), labels = c("Non-Malicious", "Malicious")) +
   scale_color_manual(values = c("green", "red"), labels = c("Non-Malicious", "Malicious")) +
-  labs(x = "Principal Component 1", y = "Principal Component 2")
+  labs(x = "PC1", y = "PC2")
 
 # View the plot
 biplot_pca
@@ -298,21 +293,10 @@ density_pc2 <- ggplot(df_pca, aes(x = PC2, fill = Class)) +
 # View the plot
 density_pc2
 
-# Density plot for PC3
-
-density_pc3 <- ggplot(df_pca, aes(x = PC3, fill = Class)) +
-  geom_density(alpha = 0.5) +
-  theme_minimal(base_size = 14) +
-  theme(legend.position = "right") +
-  xlab("PC3") +
-  ylab("Density") +
-  scale_fill_manual(values = c("green", "red"), labels = c("Non-Malicious", "Malicious")) +
-  scale_color_manual(values = c("green", "red"), labels = c("Non-Malicious", "Malicious"))
-
-# View the plot
-density_pc3
-
-# Save the plot as a PNG file with a unique filename
-ggsave(filename = "density_plot_PC3.png", plot = density_pc3, width = 10, height = 7, units = "in")
+# Save the plots.
+ggsave("scores_pca.png", plot = scores_pca, width = 10, height = 8, dpi = 300)
+ggsave("biplot_pca.png", plot = biplot_pca, width = 10, height = 8, dpi = 300)
+ggsave("density_pc1_plot.png", plot = density_pc1, width = 10, height = 8, dpi = 300)
+ggsave("density_pc2_plot.png", plot = density_pc2, width = 10, height = 8, dpi = 300)
 
 # EOF
