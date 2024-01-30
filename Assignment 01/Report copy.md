@@ -11,9 +11,8 @@
       - [PC1](#pc1)
       - [PC2](#pc2)
       - [PC3](#pc3)
-  - [(iv)](#iv)
-  - [(v)](#v)
-
+  - [Biplot of PC1 and PC2](#biplot-of-pc1-and-pc2)
+  - [Dimension Identification](#dimension-identification)
 
 ## Categorical & Binary Variables
 
@@ -60,9 +59,9 @@ Table 2 shows the continuous/numerical variables in the dataset. The table shows
 
 - The `Operating.System` variable has a category for "Windows (Unknown)", "Windows 7" and "Windows 10+". Could be combined into a single category. As the "Windows 10+" category only has 4 observations, and combining the categories would make the variable more interpretable.
 
-- The `IPv6.Traffic` variable has a category for " " and "-". Which suggests missing data. This variable should be investigated further or repalaced with NA values. Alternatively, the variable could be removed from the dataset as it does not appear to be useful. False is the only category that has a significant number of observations.
+- The `IPv6.Traffic` variable has a category for " " and "-". Which suggests missing data. This variable should be investigated further or replaced with NA values. Alternatively, the variable could be removed from the dataset as it does not appear to be useful. False is the only category that has a significant number of observations.
 
-- The `Connnection.State` variable has categories Invalid, New and Related. We can combine these to better interprate the data where connection states are either "ESTABLISHED" or "OTHER". why would this make the data more interpretable??
+- The `Connection.State` variable has categories Invalid, New and Related. We can combine these to better interpret the data where connection states are either "ESTABLISHED" or "OTHER". why would this make the data more interpretable??
 
 ### Table 2 - observations
 
@@ -71,11 +70,11 @@ Table 2 shows the continuous/numerical variables in the dataset. The table shows
 - the `Response.Size` variable has a skewness close to 0. At -0.06, so the distribution is roughly symetrical.
 
 - The `Connection.Rate` variable skewness is 0.95. This suggests that there are outliers at the higher end of the distribution.
-- the `Packet.TTL` variable has a skewness of 0.19. Which suggests it is fairly symetrical. However, there are potential outliers at the upper end of the distribution.
+- the `Packet.TTL` variable has a skewness of 0.19. Which suggests it is fairly symmetrical. However, there are potential outliers at the upper end of the distribution.
 
 #### Outliers
 
-The following plots show the distribution of each variable. The plots show that there are outliers in the data. To detect and identify outliers, we use +/- 4 standard deviation. Through this we can see that outliers exist for Response.Size with 1 (76495), Connection.Rate with 2 (1820.407 & 1821.423) and Packet.TLL with 1 (108). Assembled.Payload.Size has 7 `-1` values which were flagged as an outlier, however this is deemed to be an error as it is not possible for aassembled Payload to have a negative size.
+The following plots show the distribution of each variable. The plots show that there are outliers in the data. To detect and identify outliers, we use +/- 4 standard deviation. Through this we can see that outliers exist for Response.Size with 1 (76495), Connection.Rate with 2 (1820.407 & 1821.423) and Packet.TLL with 1 (108). Assembled.Payload.Size has 7 `-1` values which were flagged as an outlier, however this is deemed to be an error as it is not possible for assembled Payload to have a negative size.
 
 ![Assesmbled Payload Size](./aps_plot.png)
 > Figure 1 - Histogram of Assembled Payload Size shows the -1 values that visually appear to be outliers.
@@ -87,7 +86,8 @@ The following plots show the distribution of each variable. The plots show that 
 > Figure 3 - Histogram of Connection Rate showing right skewed distribution, with distinct gaps at the higher end of the distribution.
 
 ![Packet.TTL](./pttl_plot.png)
-> Figure 4 - Histogram of Packet.TTL shows a roughly symetrical distribution, with potential outliers at the lower and upper ends of the distribution with potential outliers at the lower also.
+> Figure 4 - Histogram of Packet.TTL shows a roughly symmetrical distribution, with potential outliers at the lower and upper ends of the distribution with potential outliers at the lower also.
+
 
 ## Principle Component Analysis & Visualisation
 
@@ -98,14 +98,14 @@ Standardisation was used here, as the data contained features which differed in 
 |Standard deviation|1.526|1.162|1.017|0.982|
 |Proportion of Variance|0.259|0.150|0.120|0.115|
 |Cumulative Proportion|0.259|0.409|0.529|0.644|
-> Table 3 - shows us the individual and cumulative proporations of variance for the first 4 components
+> Table 3 - shows us the individual and cumulative proportions of variance for the first 4 components
 
 - PC1: Proportion of Variance = 0.259, Cumulative Proportion = 0.259
 - PC2: Proportion of Variance = 0.150, Cumulative Proportion = 0.409
 - PC3: Proportion of Variance = 0.120, Cumulative Proportion = 0.529
 - PC4: Proportion of Variance = 0.115, Cumulative Proportion = 0.644
 
-To explain at least 50% of the variability in the data, after PC1 and PC2, the cumulative proportion acounts for only 0.409, which is less than 50%. After PC3, the cumulative proportion reaches 0.529, exceeding 50%. So at least three principal components are necessary to explain at least 50% of the variability.
+To explain at least 50% of the variability in the data, after PC1 and PC2, the cumulative proportion accounts for only 0.409, which is less than 50%. After PC3, the cumulative proportion reaches 0.529, exceeding 50%. So at least three principal components are necessary to explain at least 50% of the variability.
 
 ### Loadings
 
@@ -132,15 +132,15 @@ Server.Response.Packet.Time (0.586): Is positively correlated with PC1. with loa
 
 #### PC2
 
-- Connection.Rate (0.538): Positively correlated with PC2. as the connection rate increases, the value of PC2 tends to increase. 
+- Connection.Rate (0.538): Positively correlated with PC2. as the connection rate increases, the value of PC2 tends to increase.
 
 - Source.IP.Concurrent.Connection (0.743): also has a positive loading on PC2, as the number of concurrent connections from the source IP increases, the value of PC2 tends to increase.
 
-#### PC3 
+#### PC3
 
 - Response.Size (0.747): This feature is positively correlated with PC3. As the response size increases, the value of PC3 tends to increase.
 
-## (iv)
+## Biplot of PC1 and PC2
 
 ![Biplot](./biplot_pca.png)
 > Figure 5 - Biplot of PC1 vs PC2
@@ -153,9 +153,11 @@ Write a paragraph to explain what your biplots are showing. That is:
 
 Outline and justify which (if any) of the features can help to distinguish Malicious events.
 
-## (v)
+## Dimension Identification
 
-The folowing plots show the density of the data points for PC1 and PC2. We can see that PC1 Offers better seperation between Malicious and Non-Malicious events. PC2 on the other hand has significant overlap of malicious and non-malicious points.
+Based on the results from parts (iii) to (iv), describe which dimension (choose just one) can assist with the identification of Malicious events
+
+The following plots show the density of the data points for PC1 and PC2. We can see that PC1 Offers better separation between Malicious and Non-Malicious events. PC2 on the other hand has significant overlap of malicious and non-malicious points.
 
 ![Density PC1](./density_pc1_plot.png)
 > Figure 6 - Density plot of PC1
