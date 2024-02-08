@@ -7,13 +7,14 @@ Disc Consulting Enterprises (DCE) has identified some potentially suspicious att
 Unfortunately, the attackers are skilled enough to evade detection and the exact mechanisms of their exploits have not been identified. The incident response team, including IT services, security operations, security architecture, risk management, the CISO (Chief Information Security Officer), and the CTO (Chief Technology Officer) have been meeting regularly to determine next steps. It has been suggested that the security architecture and operations teams could try to implement some real-time threat detection using machine learning models that build on earlier consultancy your firm has completed (i.e., building upon your Assessment 1 work). 
 
 Data description 
-The data you will use is the same data set provided in Assessment 1. It is provided again below.  
-
+The data you will use is the same data set provided in Assessment 1. It is provided again below.
 
 ## Things to keep in mind
 
 Each event record is a snapshot triggered by an individual network ‘packet’. The exact triggering conditions for the snapshot are unknown. But it is known that multiple packets are exchanged in a ‘TCP conversation’ between the source and the target before an event is triggered and a record created. It is also known that each event record is anomalous in some way (the SIEM logs many events that may be suspicious).
+
 The malicious events account for a very small amount of data. As such, your training needs to consider the “imbalanced” data and the effect these data may have on accuracy (both specificity and sensitivity).
+
 A very small proportion of the data are known to be corrupted by their source systems and some data are incomplete or incorrectly tagged. The incident response team indicated this is likely to be less than a few hundred records. A list of the relevant features in the data is given below.
 
 ## About the dataset
