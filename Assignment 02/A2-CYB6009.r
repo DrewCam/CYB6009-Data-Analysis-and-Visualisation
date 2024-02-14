@@ -117,3 +117,31 @@ myModels %>% data.frame
 # Models
 # Logistic LASSO Regression
 # Bagging Tree
+
+# 2. Run the ML algorithm in R on the two training sets with Class as the outcome variable.
+
+# 2.1 Logistic LASSO Regression
+
+# 2.2 Bagging Tree
+
+#3. Perform hyperparameter tuning to optimise the models:
+
+# Outline your hyperparameter tuning/searching strategy for each of the ML modelling approaches.
+# Report on the search range(s) for hyperparameter tuning,
+# which 𝑘-fold CV was used, and the number of repeated CVs (if applicable),
+# and the final optimal tuning parameter values and relevant CV statistics (i.e. CV results, tables and plots),
+# where appropriate. If you are using repeated CVs, a minimum of 2 repeats are required.
+
+#- If your selected tree model is Bagging, you must tune the nbagg, cp and minsplit hyperparameters, with at least 3 values for each.
+#- If your selected tree model is Random Forest, you must tune the num.trees and mtry hyperparameters, with at least 3 values for each. Be sure to set the randomisation seed using your student ID.
+
+#4. Evaluate the predictive performance of your two ML models, derived from the balanced and unbalanced training sets, on the testing set. Provide the confusion matrices and report and describe the following measures in the context of the project:
+#
+#- False positive rate
+#- False negative rate
+#- Overall accuracy
+#- Make sure you define each of the above metrics in the context of the case study.
+
+# 5. Provide a brief statement on your final recommended model and why you chose it. 
+# Parsimony, and to a lesser extent, interpretability maybe taken into account if the decision is close. 
+# You may outline your penalised model if it helps with your argument.
