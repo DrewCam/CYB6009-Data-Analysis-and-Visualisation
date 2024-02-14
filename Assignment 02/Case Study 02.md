@@ -158,30 +158,30 @@ mydata.test <- mydata.test %>%
 Accurate implementation of data cleaning and of each supervised machine learning algorithm in R
 Strictly about code: (1) Does the code work from start to finish? (2) Are the results reproducible? (3) Are all the steps performed correctly? (4) Is it your own work? Note: No more than 20% of your code are to come from external sources.
 
-Explanation of data cleaning and preparation.
+Part 1 - Explanation of data cleaning and preparation.
 
 1. Corresponds to part 1 b
 2. Briefly outline the reasons for sub-parts (i) and (ii)
+    (i) Clean the whole dataset based on what you have suggested / feedback from Assessment 1.
+    (ii) Filter the data to only include cases labelled with Class = 0 or 1.
 3. Provide justifications for merging of categories, i.e. sub- part(iii) and (iv).
+   1. (iii) For the feature Operating.System, merge the three Windows categories together to form a new category, say Windows_All. Furthermore, merge iOS, Linux (Unknown), and Other to form the new category named Others. Hint: use the forcats:: fct_collapse(.) function.
+   2. (iv) Similarly, for the feature Connection.State, merge INVALID, NEW and RELATED to form the new category named Others.
+   3. (v) Select only the complete cases using the na.omit(.) function, and name the dataset MLData2023_cleaned.
 
-An outline of the selected modelling approaches, the hyperparameter tuning and search strategy, the corresponding performance evaluation in the training sets (i.e. CV results, tables and plots), and the optimal tuning hyperparameter values.
+Part 2 - An outline of the selected modelling approaches, the hyperparameter tuning and search strategy, the corresponding performance evaluation in the training sets (i.e. CV results, tables and plots), and the optimal tuning hyperparameter values.
 
-1. Penalised logistic regression model – Outline the range of values for your lambda and alpha (if elastic-net). Plot/tabulate the CV results. Outline the optimal value(s) of your hyperparameter(s). Outline the coefficients if
-required for your arguments of model choice.
-1. Tree models - Outline the range of the hyperparameters (bagging and RF). Tabulate, e.g. the top combinations and the optimal OOB misclassification error, or plot the CV results (e.g. classification tree).
+1. Penalised logistic regression model 
+   - Outline the range of values for your lambda and alpha (if elastic-net).
+   - Plot/tabulate the CV results. 
+   - Outline the optimal value(s) of your hyperparameter(s). Outline the coefficients if required for your arguments of model choice.
+
+2. Tree models
+   - Outline the range of the hyperparameters (bagging and RF).
+   - Tabulate, e.g. the top combinations and the optimal OOB misclassification error, or plot the CV results (e.g. classification tree).
 
 Presentation, interpretation and comparison of the performance measures (i.e. confusion matrices, false positives, false negatives, etc.) among the selected machine learning algorithms. Justification of the recommended modelling approach.
 
 1. Provide the confusion matrices (frequencies, proportions) in the test set.
 2. Interpretation of the metrics, including accuracy, false positive rate, false negative rate in the context of the study
 
-Report structure and presentation
-
-Including tables and figures, and where appropriate, proper citations and referencing in APA- 7th style.
-
-Report should be clear and logical, well structured, mostly free from communication, spelling and grammatical errors.
-
-1. Overall structure, presentation and narrative.
-2. Referencing
-3. Table and figures are clear, and properly labelled and referenced.
-4. Spelling and grammar.
