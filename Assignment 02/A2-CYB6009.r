@@ -1,6 +1,7 @@
-#
+# run, tune and evaluate two supervised ML algorithms (each with two types of training data) to identify the most accurate way of classifying malicious events.
+# You do not need to concern yourself about the specifics of the SIEM plugin or software integration.
 
-install.packages(c("tidyverse", "caret", "glmnet", "forcats", "rpart", "rpart.plot", "ipred", "e1071", "ggpubr"))
+install.packages(c("tidyverse", "caret", "glmnet", "forcats", "rpart", "rpart.plot", "ipred", "e1071", "ggpubr", "pROC"))
 
 library(tidyverse) # data manipulation and visualization
 library(caret) # classification and regression training
@@ -11,6 +12,8 @@ library(rpart.plot) # plotting trees
 library(ipred) # improved predictive models
 library(e1071) # support vector machines
 library(ggpubr) # ggplot2-based publication ready plots
+library(pROC) # For AUC and ROC analysis
+library(ggplot2)
 
 # My working directory
 setwd("C:/Users/drewc/OneDrive/Documents/J97 - Master of Cyber Security/CYB6009-Data-Analysis-and-Visualisation/Assignment 02")
@@ -92,17 +95,19 @@ mydata.test <- rbind(test.class0, test.class1)
 mydata.test <- mydata.test %>%
   mutate(Class = factor(Class, labels = c("NonMal", "Mal")))
 
-# datasets
-# Unbalanced training dataset (mydata.ub.train)
-# Balanced training dataset (mydata.b.train)
-# Testing dataset (mydata.test)
+# View the structure of the training and testing sets
+str(mydata.b.train) # balanced training set
+str(mydata.ub.train) # unbalanced training set
+str(mydata.test) # testing set
 
-str(mydata.ub.train)
-str(mydata.b.train)
-str(mydata.test)
+# Write training and testing sets to csv files
+write.csv(mydata.b.train, "mydata.b.train.csv", row.names = FALSE)
+write.csv(mydata.ub.train, "mydata.ub.train.csv", row.names = FALSE)
+write.csv(mydata.test, "mydata.test.csv", row.names = FALSE)
 
 ## Part 2 - Compare the performances of different ML Algorithms
 
+# Select models to be evaluated.
 set.seed(10215233)
 models.list1 <- c("Logistic Ridge Regression",
                   "Logistic LASSO Regression",
@@ -114,34 +119,33 @@ myModels <- c(sample(models.list1, size = 1),
               sample(models.list2, size = 1))
 myModels %>% data.frame
 
-# Models
-# Logistic LASSO Regression
-# Bagging Tree
 
-# 2. Run the ML algorithm in R on the two training sets with Class as the outcome variable.
+# Logistic LASSO Regression on the balanced training set mydata.b.train
+set.seed(10215233)
+#Range of lambda values to test
+lambdas <- 10^seq(-5, 1, length = 100)
 
-# 2.1 Logistic LASSO Regression
+# Logistic LASSO Regression on the balanced training set
+lasso_model_b <- train(Class ~., #Formula
+                       data = mydata.b.train, #Training data
+                       method = "glmnet", #Penalised regression modelling
+                       preProcess = NULL,
+                       #Perform 10-fold CV, 5 times over.
+                       trControl = trainControl("repeatedcv",
+                                                number = 10,
+                                                repeats = 5),
+                       tuneGrid = expand.grid(alpha = 1, #LASSO regression
+                                              lambda = lambdas))
 
-# 2.2 Bagging Tree
-
-#3. Perform hyperparameter tuning to optimise the models:
-
-# Outline your hyperparameter tuning/searching strategy for each of the ML modelling approaches.
-# Report on the search range(s) for hyperparameter tuning,
-# which 𝑘-fold CV was used, and the number of repeated CVs (if applicable),
-# and the final optimal tuning parameter values and relevant CV statistics (i.e. CV results, tables and plots),
-# where appropriate. If you are using repeated CVs, a minimum of 2 repeats are required.
-
-#- If your selected tree model is Bagging, you must tune the nbagg, cp and minsplit hyperparameters, with at least 3 values for each.
-#- If your selected tree model is Random Forest, you must tune the num.trees and mtry hyperparameters, with at least 3 values for each. Be sure to set the randomisation seed using your student ID.
-
-#4. Evaluate the predictive performance of your two ML models, derived from the balanced and unbalanced training sets, on the testing set. Provide the confusion matrices and report and describe the following measures in the context of the project:
-#
-#- False positive rate
-#- False negative rate
-#- Overall accuracy
-#- Make sure you define each of the above metrics in the context of the case study.
-
-# 5. Provide a brief statement on your final recommended model and why you chose it. 
-# Parsimony, and to a lesser extent, interpretability maybe taken into account if the decision is close. 
-# You may outline your penalised model if it helps with your argument.
+# Logistic LASSO Regression on the unbalanced training set mydata.ub.train
+#---------------------------------------------------------------------------------------------------#
+lasso_model_ub <- train(Class ~ ., #Formula
+                        data = mydata.ub.train, #Training data
+                        method = "glmnet", #Penalised regression modelling
+                        preProcess = NULL,
+                        #Perform 10-fold CV, 5 times over.
+                        trControl = trainControl("repeatedcv",
+                                                    number = 10,
+                                                    repeats = 5),
+                        tuneGrid = expand.grid(alpha = 1, #LASSO regression
+                                               lambda = lambdas))
