@@ -78,7 +78,7 @@ dat.class0 <- MLData2023_cleaned %>% filter(Class == 0) # non-malicious # nolint
 dat.class1 <- MLData2023_cleaned %>% filter(Class == 1) # malicious # nolint: object_name_linter.
 
 # Randomly select 19800 non-malicious and 200 malicious samples, then combine them to form the training samples
-set.seed(1)
+set.seed(10215233)
 rows.train0 <- sample(1:nrow(dat.class0), size = 19800, replace = FALSE) # nolint: object_name_linter.
 rows.train1 <- sample(1:nrow(dat.class1), size = 200, replace = FALSE) # nolint: object_name_linter.
 # Your 20000 unbalanced training samples
@@ -313,7 +313,7 @@ ggplot() +
   coord_cartesian(xlim = c(-8, 3))
 
 # Print OOB sorted.
-cat("=== Bagging OOB (Balanced) ===\n"); print(oob_b)
-cat("=== Bagging OOB (UnBalanced) ===\n"); print(oob.ub)
+cat("Bagging OOB (Balanced)\n"); print(oob_b)
+cat("Bagging OOB (UnBalanced)\n"); print(oob_ub)
 
 # EOF
