@@ -184,4 +184,3 @@ Presentation, interpretation and comparison of the performance measures (i.e. co
 
 1. Provide the confusion matrices (frequencies, proportions) in the test set.
 2. Interpretation of the metrics, including accuracy, false positive rate, false negative rate in the context of the study
-

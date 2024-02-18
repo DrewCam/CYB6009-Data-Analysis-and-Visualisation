@@ -18,87 +18,72 @@ setwd("C:/Users/drewc/OneDrive/Documents/J97 - Master of Cyber Security/CYB6009-
 getwd()
 
 # Import the data
-MLData2023 <- read.csv("MLData2023.csv", stringsAsFactors = TRUE) # nolint: object_name_linter.
+MLData2023 <- read.csv("MLData2023.csv", stringsAsFactors = TRUE)
 str(MLData2023)
 
 ## Part 1 - General data preparation and cleaning
 
-#_b_ The main data issues are
-# i) Invalid categories, i.e. "-" and " ", for IPV6.Traffic,
-# ii) Invalid category, i.e. "-" for Operating.System,
-# iii) invalid data entry of -1 (size cannot be negative) for Assembled.Payload.Size and
-# iv) the invalid category of Operating.System is limited, and so it only applied to a few of you.
-# Given that IPV6.Traffic has a significant proportion of invalid values, this feature should be "removed" from the dataset for Assessment 2.
-
 # Remove IPv6.Traffic feature. It has a large proportion of invalid or bad data, advised to remove it from the data set.
-
-MLData2023 <- MLData2023 %>% select(-IPV6.Traffic) # nolint: object_name_linter.
+MLData2023 <- MLData2023 %>% select(-IPV6.Traffic)
 
 # Remove -1 values in Assembly.Payload.Size feature and replace with NA as size cannot be negative.
-
-MLData2023 <- MLData2023 %>% # nolint: object_name_linter.
+MLData2023 <- MLData2023 %>%
   mutate(Assembled.Payload.Size = replace(Assembled.Payload.Size, Assembled.Payload.Size == -1, NA))
 
 # Replace invalid values and Operating.System categories with NA and reapply factor.
-
-MLData2023 <- MLData2023 %>% # nolint: object_name_linter.
+MLData2023 <- MLData2023 %>%
   mutate(Operating.System = factor(replace(Operating.System, Operating.System == "-", NA)))
 
 # take Class and apply factor - remove any -1 or 99999 values and replace with NA
-
-MLData2023 <- MLData2023 %>% # nolint: object_name_linter.
+MLData2023 <- MLData2023 %>%
   mutate(Class = factor(replace(Class, Class == "-1" | Class == "99999", NA)))
 
 # Merge Operating.System categories Windows 7, Windows 10+, Windows (Unknown) in to one category called Windows_All
-
-MLData2023$Operating.System <- fct_collapse(MLData2023$Operating.System, # nolint: object_name_linter.
+MLData2023$Operating.System <- fct_collapse(MLData2023$Operating.System,
                                             Windows_All = c("Windows 7", "Windows 10+", "Windows (Unknown)"))
 
 # Merge Operating.System categories iOS, Linux(Unknown) and Other in to a new category called Other_OS
-
-MLData2023$Operating.System <- fct_collapse(MLData2023$Operating.System, # nolint: object_name_linter.
+MLData2023$Operating.System <- fct_collapse(MLData2023$Operating.System,
                                             Other_OS = c("iOS", "Linux (unknown)", "Other"))
 
 # Merge Connection.State categories INVALID, NEW and RELATED to form a new category called Others
-
-MLData2023$Connection.State <- fct_collapse(MLData2023$Connection.State, # nolint: object_name_linter.
+MLData2023$Connection.State <- fct_collapse(MLData2023$Connection.State,
                                             Others = c("INVALID", "NEW", "RELATED"))
 
 # filter data to only include cases labelled with Class = 0 or 1
-
-MLData2023 <- subset(MLData2023, Class %in% c(0, 1)) # nolint: object_name_linter.
+MLData2023 <- subset(MLData2023, Class %in% c(0, 1))
 
 # Select only the complete cases using the na.omit(.) function, and name the dataset MLData2023_cleaned
-MLData2023_cleaned <- na.omit(MLData2023) # nolint: object_name_linter.
+MLData2023_cleaned <- na.omit(MLData2023)
 
 str(MLData2023_cleaned)
 
 # Separate samples of non-malicious and malicious events
-dat.class0 <- MLData2023_cleaned %>% filter(Class == 0) # non-malicious # nolint: object_name_linter.
-dat.class1 <- MLData2023_cleaned %>% filter(Class == 1) # malicious # nolint: object_name_linter.
+dat.class0 <- MLData2023_cleaned %>% filter(Class == 0) # non-malicious
+dat.class1 <- MLData2023_cleaned %>% filter(Class == 1) # malicious
 
 # Randomly select 19800 non-malicious and 200 malicious samples, then combine them to form the training samples
 set.seed(10215233)
-rows.train0 <- sample(1:nrow(dat.class0), size = 19800, replace = FALSE) # nolint: object_name_linter.
-rows.train1 <- sample(1:nrow(dat.class1), size = 200, replace = FALSE) # nolint: object_name_linter.
+rows.train0 <- sample(1:nrow(dat.class0), size = 19800, replace = FALSE)
+rows.train1 <- sample(1:nrow(dat.class1), size = 200, replace = FALSE)
 # Your 20000 unbalanced training samples
-train.class0 <- dat.class0[rows.train0, ] # Non-malicious samples # nolint: object_name_linter.
-train.class1 <- dat.class1[rows.train1, ] # Malicious samples # nolint: object_name_linter.
-mydata.ub.train <- rbind(train.class0, train.class1) # nolint: object_name_linter.
-mydata.ub.train <- mydata.ub.train %>% # nolint: object_name_linter.
+train.class0 <- dat.class0[rows.train0, ] # Non-malicious samples
+train.class1 <- dat.class1[rows.train1, ] # Malicious samples
+mydata.ub.train <- rbind(train.class0, train.class1)
+mydata.ub.train <- mydata.ub.train %>%
   mutate(Class = factor(Class, labels = c("NonMal", "Mal")))
 # Your 39600 balanced training samples, i.e. 19800 non-malicious and malicious samples each.
 set.seed(123)
-train.class1_2 <- train.class1[sample(1:nrow(train.class1), size = 19800, # nolint: object_name_linter.
+train.class1_2 <- train.class1[sample(1:nrow(train.class1), size = 19800,
                                       replace = TRUE), ]
-mydata_b_train <- rbind(train.class0, train.class1_2) # nolint: object_name_linter.
-mydata_b_train <- mydata_b_train %>% # nolint: object_name_linter.
+mydata_b_train <- rbind(train.class0, train.class1_2)
+mydata_b_train <- mydata_b_train %>%
   mutate(Class = factor(Class, labels = c("NonMal", "Mal")))
 # Your testing samples
-test.class0 <- dat.class0[-rows.train0, ] # nolint: object_name_linter.
-test.class1 <- dat.class1[-rows.train1, ] # nolint: object_name_linter.
-mydata.test <- rbind(test.class0, test.class1) # nolint: object_name_linter.
-mydata.test <- mydata.test %>% # nolint: object_name_linter.
+test.class0 <- dat.class0[-rows.train0, ]
+test.class1 <- dat.class1[-rows.train1, ]
+mydata.test <- rbind(test.class0, test.class1)
+mydata.test <- mydata.test %>%
   mutate(Class = factor(Class, labels = c("NonMal", "Mal")))
 
 # View the structure of the training and testing sets
@@ -115,13 +100,13 @@ write.csv(mydata.test, "mydata.test.csv", row.names = FALSE)
 
 # Select models to be evaluated.
 set.seed(10215233)
-models.list1 <- c("Logistic Ridge Regression", # nolint: object_name_linter.
+models.list1 <- c("Logistic Ridge Regression",
                   "Logistic LASSO Regression",
                   "Logistic Elastic-Net Regression")
-models.list2 <- c("Classification Tree", # nolint: object_name_linter.
+models.list2 <- c("Classification Tree",
                   "Bagging Tree",
                   "Random Forest")
-myModels <- c(sample(models.list1, size = 1), # nolint: object_name_linter.
+myModels <- c(sample(models.list1, size = 1),
               sample(models.list2, size = 1))
 myModels %>% data.frame
 
@@ -130,7 +115,7 @@ myModels %>% data.frame
 # Bagging Tree
 
 # Logistic LASSO Regression on the balanced training set mydata_b_train
-#  set.seed(1)
+
 # Range of lambda values to test
 lambdas <- 10^seq(-5, 1, length = 100)
 
@@ -176,7 +161,6 @@ bagging_grid <- expand.grid(nbagg = seq(50, 200, 50),  #A sequence of nbagg valu
 
 bagging_search <- function(train_data, test_data, bagging_grid) {
   for (I in 1:nrow(bagging_grid)) {
-    #set.seed(1)
 
     # Perform bagging on input dataset
     btree <- bagging(Class ~ .,
@@ -244,7 +228,6 @@ pred_lasso_ub <- predict(lasso_model_ub, new = mydata.test)
 cm_ub_lasso <- table(pred_lasso_ub %>% relevel(ref = "Mal"),
                      mydata.test$Class %>% relevel(ref = "Mal"))
 
-
 # Bagging tree prediction and releveling of the Class levels
 pred_tree_b <- predict(bagging_model_b, newdata = mydata.test, type = "class")
 cm_b_tree <- table(pred_tree_b %>% relevel(ref = "Mal"),
@@ -299,8 +282,7 @@ cat("=== Lasso Model (UnBalanced) ===\n"); print(lasso_model_ub$bestTune)
 cat("=== Lasso Model (Balanced) ===\n"); print(lasso_model_b$results)
 cat("=== Lasso Model (UnBalanced) ===\n"); print(lasso_model_ub$results)
 
-# Plot combined lasso balanced and unbalanced lambda vs accuracy
-ggplot() +
+lasso_plot <- ggplot() +
   geom_line(data = lasso_model_b$results, aes(x = log(lambda), y = Accuracy, colour = "Balanced")) +
   geom_point(data = lasso_model_b$results, aes(x = log(lambda), y = Accuracy, colour = "Balanced")) +
   geom_line(data = lasso_model_ub$results, aes(x = log(lambda), y = Accuracy, colour = "UnBalanced")) +
@@ -310,7 +292,9 @@ ggplot() +
   ylab("Accuracy") +
   scale_color_manual(values = c("Balanced" = "blue", "UnBalanced" = "red")) +
   theme(legend.title = element_blank()) +
-  coord_cartesian(xlim = c(-8, 3))
+  coord_cartesian(xlim = c(-3, 1), ylim = c(0.95, 1.0))
+
+ggsave("lasso_plot.png", plot = lasso_plot, width = 10, height = 8, dpi = 300)
 
 # Print OOB sorted.
 cat("Bagging OOB (Balanced)\n"); print(oob_b)
