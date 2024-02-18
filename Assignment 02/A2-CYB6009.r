@@ -1,7 +1,8 @@
+# Assement 2 - CYB6009 - Data Analysis and Visualisation
 # run, tune and evaluate two supervised ML algorithms (each with two types of training data) to identify the most accurate way of classifying malicious events.
 # You do not need to concern yourself about the specifics of the SIEM plugin or software integration.
 
-install.packages(c("tidyverse", "caret", "glmnet", "forcats", "rpart", "rpart.plot", "ipred", "e1071", "ggpubr", "pROC"))
+# install.packages(c("tidyverse", "caret", "forcats", "rpart", "rpart.plot", "ipred", "e1071", "ggpubr", "pROC"))
 
 # Load the required libraries
 
@@ -95,8 +96,6 @@ str(mydata.test) # testing set
 write.csv(mydata_b_train, "mydata_b_train.csv", row.names = FALSE)
 write.csv(mydata.ub.train, "mydata.ub.train.csv", row.names = FALSE)
 write.csv(mydata.test, "mydata.test.csv", row.names = FALSE)
-
-## Part 2 - Compare the performances of different ML Algorithms
 
 # Select models to be evaluated.
 set.seed(10215233)
@@ -243,9 +242,8 @@ cm_ub_lasso <- confusionMatrix(cm_ub_lasso)
 cm_b_tree <- confusionMatrix(cm_b_tree)
 cm_ub_tree <- confusionMatrix(cm_ub_tree)
 
-# Printing the results
-#---------------------------------------------------------------------------------------------------#
 # Calculate and print all results.
+
 # Function to calculate fscore, fpr, fnr, precision, recall etc.
 calculate_metrics <- function(cm, model_name) {
   tp <- cm$table[1, 1]
@@ -269,19 +267,20 @@ calculate_metrics <- function(cm, model_name) {
 }
 
 # Class to the function to calculate metrics and prints the results.
-calculate_metrics(cm_b_lasso, "=== Lasso Model (Balanced) ===")
-calculate_metrics(cm_ub_lasso, "=== Lasso Model (UnBalanced) ===")
-calculate_metrics(cm_b_tree, "=== Tree Model (Balanced) ===")
-calculate_metrics(cm_ub_tree, "=== Tree Model (UnBalanced) ===")
+calculate_metrics(cm_b_lasso, "== Lasso Model (Balanced) ==")
+calculate_metrics(cm_ub_lasso, "== Lasso Model (UnBalanced) ==")
+calculate_metrics(cm_b_tree, "== Tree Model (Balanced) ==")
+calculate_metrics(cm_ub_tree, "== Tree Model (UnBalanced) ==")
 
 # print lasso model best tune parameters
-cat("=== Lasso Model (Balanced) ===\n"); print(lasso_model_b$bestTune)
-cat("=== Lasso Model (UnBalanced) ===\n"); print(lasso_model_ub$bestTune)
+cat("== Lasso Model (Balanced) ==\n"); print(lasso_model_b$bestTune)
+cat("== Lasso Model (UnBalanced) ==\n"); print(lasso_model_ub$bestTune)
 
 # print lasso balanced lambda vs accuracy
-cat("=== Lasso Model (Balanced) ===\n"); print(lasso_model_b$results)
-cat("=== Lasso Model (UnBalanced) ===\n"); print(lasso_model_ub$results)
+cat("== Lasso Model (Balanced) ==\n"); print(lasso_model_b$results)
+cat("== Lasso Model (UnBalanced) ==\n"); print(lasso_model_ub$results)
 
+# plot lasso model accuracy
 lasso_plot <- ggplot() +
   geom_line(data = lasso_model_b$results, aes(x = log(lambda), y = Accuracy, colour = "Balanced")) +
   geom_point(data = lasso_model_b$results, aes(x = log(lambda), y = Accuracy, colour = "Balanced")) +
@@ -294,7 +293,8 @@ lasso_plot <- ggplot() +
   theme(legend.title = element_blank()) +
   coord_cartesian(xlim = c(-3, 1), ylim = c(0.95, 1.0))
 
-ggsave("lasso_plot.png", plot = lasso_plot, width = 10, height = 8, dpi = 300)
+# save the plot.
+# ggsave("lasso_plot.png", plot = lasso_plot, width = 10, height = 8, dpi = 300)
 
 # Print OOB sorted.
 cat("Bagging OOB (Balanced)\n"); print(oob_b)
