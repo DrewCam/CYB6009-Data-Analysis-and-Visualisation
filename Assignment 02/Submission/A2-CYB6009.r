@@ -64,7 +64,7 @@ dat.class0 <- MLData2023_cleaned %>% filter(Class == 0) # non-malicious
 dat.class1 <- MLData2023_cleaned %>% filter(Class == 1) # malicious
 
 # Randomly select 19800 non-malicious and 200 malicious samples, then combine them to form the training samples
-set.seed(10215233)
+set.seed(1)
 rows.train0 <- sample(1:nrow(dat.class0), size = 19800, replace = FALSE)
 rows.train1 <- sample(1:nrow(dat.class1), size = 200, replace = FALSE)
 # Your 20000 unbalanced training samples
@@ -98,7 +98,7 @@ write.csv(mydata.ub.train, "mydata.ub.train.csv", row.names = FALSE)
 write.csv(mydata.test, "mydata.test.csv", row.names = FALSE)
 
 # Select models to be evaluated.
-set.seed(10215233)
+set.seed(1)
 models.list1 <- c("Logistic Ridge Regression",
                   "Logistic LASSO Regression",
                   "Logistic Elastic-Net Regression")
